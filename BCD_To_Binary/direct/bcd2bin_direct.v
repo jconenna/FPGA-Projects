@@ -5,5 +5,4 @@ module bcd2bin_direct
    );
 
    assign bin = (bcd1 * 4'b1010) + {3'b0, bcd0};
-
 endmodule
