@@ -1,6 +1,5 @@
 module stopwatch
-
-	( 
+        ( 
 	  input wire clk, go, stop, clr,              // clock and reset input lines
 	  output wire [3:0] an,                        // enable for 4 displays
 	  output wire [7:0] sseg                       // led segments
