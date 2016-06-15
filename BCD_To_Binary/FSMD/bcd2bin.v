@@ -43,49 +43,49 @@ module bcd2bin
    // FSMD next-state logic
    always @*
    begin
-	   // defaults
-      state_next = state_reg;
-      ready = 1'b0;
-      done_tick = 1'b0;
-      bin_next = bin_reg;
-      bcd0_next = bcd0;   // route in bcd1 input
-      bcd1_next = bcd1;   // route in bcd0 input
-      n_next = n_reg;
+   // defaults
+   state_next = state_reg;
+   ready = 1'b0;
+   done_tick = 1'b0;
+   bin_next = bin_reg;
+   bcd0_next = bcd0;   // route in bcd1 input
+   bcd1_next = bcd1;   // route in bcd0 input
+   n_next = n_reg;
 		
-      case (state_reg)
+   case (state_reg)
 		
-         idle:
-            begin
-               ready = 1'b1;
-               if (start)
-                  begin
-                     state_next = op;
-                     n_next = 4'b0111;      // iterate 7 times
-                  end
-            end
+      idle:
+           begin
+           ready = 1'b1;
+           if (start)
+              begin
+              state_next = op;
+              n_next = 4'b0111;      // iterate 7 times
+              end
+           end
 				
-         op:
-            begin
-               bin_next = {bcd0_reg[0], bin_reg[6:1]};   // right shift in lowest bit from bcd0_reg
+      op:
+          begin
+          bin_next = {bcd0_reg[0], bin_reg[6:1]};   // right shift in lowest bit from bcd0_reg
 					
-					bcd1_next = {1'b0, bcd1_reg[3:1]};        // right shift in 0 to bcd1
+	  bcd1_next = {1'b0, bcd1_reg[3:1]};        // right shift in 0 to bcd1
 					
-					// right shift in bcd1[0] into bcd0, if bcd0 > 4, subtract 3
-               bcd0_next = ({bcd1_reg[0], bcd0_reg[3:1]} > 4) ? ({bcd1_reg[0], bcd0_reg[3:1]} - 4'b0011) : {bcd1_reg[0], bcd0_reg[3:1]};   
+          // right shift in bcd1[0] into bcd0, if bcd0 > 4, subtract 3
+          bcd0_next = ({bcd1_reg[0], bcd0_reg[3:1]} > 4) ? ({bcd1_reg[0], bcd0_reg[3:1]} - 4'b0011) : {bcd1_reg[0], bcd0_reg[3:1]};   
 					
-               n_next = n_reg - 1;                       // decrement n
-               if (n_next==0)
-                   state_next = done;	 
-            end
+          n_next = n_reg - 1;                       // decrement n
+          if (n_next==0)
+              state_next = done;	 
+          end
 				
-         done:
-            begin
-               done_tick = 1'b1;   
-               state_next = idle;  
-            end
+      done:
+           begin
+           done_tick = 1'b1;   
+           state_next = idle;  
+           end
 				
-         default: state_next = idle;
-      endcase
+      default: state_next = idle;
+   endcase
    end  
 
    // assign output
