@@ -24,38 +24,39 @@ module minSecTimer
    
 	// state register
 	always @(posedge clk, posedge clr)
-	   if(clr)
-		  state_reg <= 0;
-		else 
-		  state_reg <= state_next;
+	    if(clr)
+              state_reg <= 0;
+	    else 
+	      state_reg <= state_next;
 
-   // FSM next state logic
-   always @*
-       case(state_reg)
-         off:begin
-			    if(go)
-               state_next = on;
-				 else 
-				   state_next = off;
-				 end
+        // FSM next state logic
+        always @*
+            case(state_reg)
+                
+                 off: begin
+	              if(go)
+                        state_next = on;
+		      else 
+		        state_next = off;
+		      end
 			
-			on: begin
-			    if(stop)
-               state_next = off;
-				 else 
-				   state_next = on;
-             end
-        endcase		  
+		 on: begin
+		     if(stop)
+                       state_next = off;
+		     else 
+		      state_next = on;
+                     end
+            endcase		  
 		  
-   // counter register 
+        // counter register 
 	always @(posedge clk)
 	    begin
-		 sec_reg <= sec_next;
-		 d0_reg  <= d0_next;
-		 d1_reg  <= d1_next;
-		 d2_reg  <= d2_next; 
-		 d3_reg  <= d3_next;
-		 end
+	    sec_reg <= sec_next;
+	    d0_reg  <= d0_next;
+	    d1_reg  <= d1_next;
+	    d2_reg  <= d2_next; 
+	    3_reg  <= d3_next;
+	    end
 	
 	// next state logic 
 	// 1 second tick generator : mod-50M
@@ -71,13 +72,13 @@ module minSecTimer
 	                  d0_en ? d0_reg + 1 : d0_reg; 
 	
 	assign d0_tick = (d0_reg == 9) ? 1'b1 : 1'b0;
-							
+	
 	// second tenths counter 
 	assign d1_en = sec_tick & d0_tick; 
 	
 	assign d1_next = (clr || (d1_en && d1_reg == 5)) ? 4'b0 : 
 	                  d1_en ? d1_reg + 1 : d1_reg; 	
-							
+	
 	assign d1_tick = (d1_reg == 5) ? 1'b1 : 1'b0;
 	
 	// minute ones counter 
@@ -86,18 +87,18 @@ module minSecTimer
 	assign d2_next = (clr || (d2_en && d2_reg == 9)) ? 4'b0 : 
 	                  d2_en ? d2_reg + 1 : d2_reg;
 	
-   assign d2_tick = (d2_reg == 9) ? 1'b1 : 1'b0;	
+        assign d2_tick = (d2_reg == 9) ? 1'b1 : 1'b0;	
 	
 	// minute tenths counter 
 	assign d3_en = sec_tick & d0_tick & d1_tick & d2_tick; 
 	
 	assign d3_next = (clr || (d3_en && d3_reg == 9)) ? 4'b0 : 
 	                  d3_en ? d3_reg + 1 : d3_reg;
-							
+	
 	// output logic 
-   assign d0 = d0_reg; 
-   assign d1 = d1_reg; 
-   assign d2 = d2_reg;
+        assign d0 = d0_reg; 
+        assign d1 = d1_reg; 
+        assign d2 = d2_reg;
 	assign d3 = d3_reg;
 
 endmodule 
