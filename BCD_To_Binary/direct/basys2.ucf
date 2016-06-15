@@ -1,0 +1,25 @@
+# clock pins for Basys2 Board
+NET "clk" LOC = "B8"; # Bank = 0, Signal name = MCLK
+
+NET "bcd[7]" LOC = "N3";  # Bank = 2, Signal name = SW7
+NET "bcd[6]" LOC = "E2";  # Bank = 3, Signal name = SW6
+NET "bcd[5]" LOC = "F3";  # Bank = 3, Signal name = SW5
+NET "bcd[4]" LOC = "G3";  # Bank = 3, Signal name = SW4
+NET "bcd[3]" LOC = "B4";  # Bank = 3, Signal name = SW3
+NET "bcd[2]" LOC = "K3";  # Bank = 3, Signal name = SW2
+NET "bcd[1]" LOC = "L3";  # Bank = 3, Signal name = SW1
+NET "bcd[0]" LOC = "P11";  # Bank = 2, Signal name = SW0
+
+NET "an[3]" LOC = "K14"; # Bank = 1, Signal name = AN3
+NET "an[2]" LOC = "M13"; # Bank = 1, Signal name = AN2
+NET "an[1]" LOC = "J12"; # Bank = 1, Signal name = AN1
+NET "an[0]" LOC = "F12"; # Bank = 1, Signal name = AN0
+
+NET "sseg[6]" LOC = "L14"; # Bank = 1, Signal name = CA
+NET "sseg[5]" LOC = "H12"; # Bank = 1, Signal name = CB
+NET "sseg[4]" LOC = "N14"; # Bank = 1, Signal name = CC
+NET "sseg[3]" LOC = "N11"; # Bank = 2, Signal name = CD
+NET "sseg[2]" LOC = "P12"; # Bank = 2, Signal name = CE
+NET "sseg[1]" LOC = "L13"; # Bank = 1, Signal name = CF
+NET "sseg[0]" LOC = "M12"; # Bank = 1, Signal name = CG
+NET "sseg[7]" LOC = "N13"; # Bank = 1, Signal name = DP

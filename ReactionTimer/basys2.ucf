@@ -1,0 +1,22 @@
+# clock pins for Basys2 Board
+NET "clk" LOC = "B8"; # Bank = 0, Signal name = MCLK
+
+NET "clear" LOC = "M4";  # Bank = 0, Signal name = BTN2
+NET "start" LOC = "C11"; # Bank = 2, Signal name = BTN1
+NET "stop" LOC = "G12"; # Bank = 0, Signal name = BTN0
+NET "led" LOC = "M5" ;  # Bank = 2, Signal name = LD0
+
+
+NET "an[3]" LOC = "K14"; # Bank = 1, Signal name = AN3
+NET "an[2]" LOC = "M13"; # Bank = 1, Signal name = AN2
+NET "an[1]" LOC = "J12"; # Bank = 1, Signal name = AN1
+NET "an[0]" LOC = "F12"; # Bank = 1, Signal name = AN0
+
+NET "sseg[6]" LOC = "L14"; # Bank = 1, Signal name = CA
+NET "sseg[5]" LOC = "H12"; # Bank = 1, Signal name = CB
+NET "sseg[4]" LOC = "N14"; # Bank = 1, Signal name = CC
+NET "sseg[3]" LOC = "N11"; # Bank = 2, Signal name = CD
+NET "sseg[2]" LOC = "P12"; # Bank = 2, Signal name = CE
+NET "sseg[1]" LOC = "L13"; # Bank = 1, Signal name = CF
+NET "sseg[0]" LOC = "M12"; # Bank = 1, Signal name = CG
+NET "sseg[7]" LOC = "N13"; # Bank = 1, Signal name = DP

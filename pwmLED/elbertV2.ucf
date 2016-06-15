@@ -1,0 +1,9 @@
+// UCF for Numato Elbert V2
+
+NET "clk"          LOC = P129  | IOSTANDARD = LVCMOS33 | PERIOD = 12MHz;
+NET "out"          LOC = P46;
+NET "sw[0]"        LOC = P70   | PULLUP;
+NET "sw[1]"        LOC = P69   | PULLUP;
+NET "sw[2]"        LOC = P68   | PULLUP;
+NET "sw[3]"        LOC = P64   | PULLUP;
+NET "scope"        LOC = P31;
