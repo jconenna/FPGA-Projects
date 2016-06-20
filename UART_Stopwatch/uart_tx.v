@@ -26,18 +26,18 @@ module uart_tx
 		if (reset)
 			begin
 			state_reg <= idle;
-            baud_reg  <= 0;
-            n_reg     <= 0;
-            d_reg     <= 0;
-            tx_reg    <= 1'b1;
+                        baud_reg  <= 0;
+                        n_reg     <= 0;
+                        d_reg     <= 0;
+                        tx_reg    <= 1'b1;
 			end
 		else
 			begin
-            state_reg <= state_next;
-            baud_reg  <= baud_next;
-            n_reg     <= n_next;
-            d_reg     <= d_next;
-            tx_reg    <= tx_next;
+                        state_reg <= state_next;
+                        baud_reg  <= baud_next;
+                        n_reg     <= n_next;
+                        d_reg     <= d_next;
+                        tx_reg    <= tx_next;
 			end
 	
 	// FSMD next state logic
@@ -54,25 +54,25 @@ module uart_tx
 		
 		case (state_reg)
 		
-			idle:                              // idle, hold tx line high, until tx_start asserted...
+			idle:                                     // idle, hold tx line high, until tx_start asserted...
 				begin
 				tx_next = 1'b1;
-				if (tx_start)                  // when tx_start input asserted
+				if (tx_start)                      // when tx_start input asserted
 					begin
 					state_next = start;        // go to start state
 					baud_next  = 0;            // reset baud reg to 0
 					d_next     = tx_data;      // load data to transit to data register
-				end
-            end
+				        end
+                                end
 			
-			start:                             // start, hold line low for 16 baud_ticks 
+			start:                                     // start, hold line low for 16 baud_ticks 
 				begin
-				tx_next = 1'b0;                // hold tx low
+				tx_next = 1'b0;                    // hold tx low
 				
 				if(baud_tick)
 					baud_next = baud_reg + 1;  // increment baud_reg every tick  
 					
-				else if(baud_reg == 16)        // once 16 baud_ticks counted...
+				else if(baud_reg == 16)            // once 16 baud_ticks counted...
 					begin
 					state_next = data;         // go to data state
 					baud_next  = 0;            // reset baud counter 
@@ -82,30 +82,30 @@ module uart_tx
 			
 			data:
 				begin
-				tx_next = d_reg[0];            // transmit LSB of data reg
+				tx_next = d_reg[0];                // transmit LSB of data reg
 				
 				if(baud_tick)
 					baud_next = baud_reg + 1;  // increment baud_reg every tick 
 				
-				else if(baud_reg == 16)        // once 16 baud_ticks counted...
+				else if(baud_reg == 16)            // once 16 baud_ticks counted...
 					begin
 					d_next    = d_reg >> 1;    // right shift data reg by 1, LSB is next bit to transfer out
 					baud_next = 0;             // reset baud_tick counter
 					n_next    = n_reg + 1;     // increment data bit counter
 					end
 				
-				else if(n_reg == 8)            // once 8 data bits have been shifted out and transfered...
+				else if(n_reg == 8)                // once 8 data bits have been shifted out and transfered...
 					state_next = stop ;        // move to stop state
 				end
 				
-			stop:                              // stop, hold line high for 16 baud_ticks
+			stop:                                      // stop, hold line high for 16 baud_ticks
 				begin
-				tx_next = 1'b1;                // hold tx high
+				tx_next = 1'b1;                    // hold tx high
 				
 				if(baud_tick)
 					baud_next = baud_reg + 1;  // increment baud_reg every tick
 					
-				else if(baud_reg == 16)        // once 16 baud_ticks counted
+				else if(baud_reg == 16)            // once 16 baud_ticks counted
 					begin
 					state_next = idle;         // go to idle state
 					tx_done_tick = 1'b1;       // assert transfer done tick
