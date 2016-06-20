@@ -3,8 +3,8 @@ module uart_stopwatch
 
 	( 
 	  input  wire clk, reset,        // clock reset input lines
-	  input  wire rx,				 // receive
-	  output wire tx,				 // transmit
+	  input  wire rx,		 // receive
+	  output wire tx,		 // transmit
 	  output wire [3:0] an,          // enable for 4 displays
 	  output wire [7:0] sseg         // led segments
 
@@ -30,11 +30,11 @@ module uart_stopwatch
 	
 	// FSM states
 	localparam [2:0] idle         = 3'b000,
-			         transmit_d3  = 3'b001,
-				     transmit_d2  = 3'b010,
-				     transmit_dot = 3'b011,
-					 transmit_d1  = 3'b100,
-					 transmit_d0  = 3'b101;
+			 transmit_d3  = 3'b001,
+	                 transmit_d2  = 3'b010,
+                         transmit_dot = 3'b011,
+			 transmit_d1  = 3'b100,
+			 transmit_d0  = 3'b101;
 					 
 	// FSM register
 	always @(posedge reset, posedge clk)
@@ -71,13 +71,13 @@ module uart_stopwatch
 						tx_d_next  = {4'b0011, d3};
 						state_next = transmit_d3;
 						end
-				   end
+				        end
 				end
 				
 			transmit_d3:
 				begin
-				tx_start = 1'b1;                // begin sending data across tx
-				if(tx_done_tick)                // when done
+				tx_start = 1'b1;                    // begin sending data across tx
+				if(tx_done_tick)                    // when done
 					begin
 					tx_d_next  = {4'b0011, d2}; // load next data
 					state_next = transmit_d2;   // go to next state
