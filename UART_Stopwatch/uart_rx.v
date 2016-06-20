@@ -23,17 +23,17 @@ module uart_rx
 	always @(posedge clk, posedge reset)
 		if (reset)
 			begin
-            state_reg <= idle;
-            baud_reg  <= 0;
-            n_reg     <= 0;
-            d_reg     <= 0;
+                        state_reg <= idle;
+                        baud_reg  <= 0;
+                        n_reg     <= 0;
+                        d_reg     <= 0;
 			end
 		else
 			begin
-            state_reg <= state_next;
-            baud_reg  <= baud_next;
-            n_reg     <= n_next;
-            d_reg     <= d_next;
+                        state_reg <= state_next;
+                        baud_reg  <= baud_next;
+                        n_reg     <= n_next;
+                        d_reg     <= d_next;
 			end
 			
 	// FSMD next state logic
@@ -48,30 +48,30 @@ module uart_rx
 		d_next       = d_reg;
 		
 		case (state_reg)
-			idle:                                   // idle, wait for rx to go low (start bit)
+			idle:                                       // idle, wait for rx to go low (start bit)
 				if (~rx)                            // when rx goes low...
 					begin
-					state_next = start;             // go to start state
-					baud_next  = 0;                 // set baud_reg to 0
+					state_next = start;         // go to start state
+					baud_next  = 0;             // set baud_reg to 0
 					end
 					
-			start:                                  // start, count 8 baud_ticks
+			start:                                      // start, count 8 baud_ticks
 				begin 
 				if(baud_tick)
-					baud_next = baud_reg + 1;       // increment baud_reg every tick 
+					baud_next = baud_reg + 1;   // increment baud_reg every tick 
 					
 				else if (baud_reg == 8)             // when baud_reg has counted to 8
 					begin
-					state_next = data;              // go to data state
-					baud_next  = 0;                 // set baud_reg and
-					n_next     = 0;                 // data bit count reg to 0
+					state_next = data;          // go to data state
+					baud_next  = 0;             // set baud_reg and
+					n_next     = 0;             // data bit count reg to 0
 					end 
 				end
 				
-			data:                                   // data, shift in 8 data bits to data reg
+			data:                                       // data, shift in 8 data bits to data reg
 				begin
 				if(baud_tick)
-					baud_next = baud_reg + 1;       // increment baud_reg every tick  
+					baud_next = baud_reg + 1;   // increment baud_reg every tick  
 					
 				else if(baud_reg == 16)             // when baud_reg counted 16 ticks...
 					begin
@@ -80,16 +80,16 @@ module uart_rx
 					baud_next = 0;                  // reset baud tick counter to 0
 					end
 					
-				else if(n_reg == 8)                 // once 8 data bits have been shifted in...
+				else if(n_reg == 8)                     // once 8 data bits have been shifted in...
 					state_next = stop ;             // move to stop state
 				end
 				
-			stop:                                   // stop, rx line is high for 16 baud_ticks (stop bit)
+			stop:                                           // stop, rx line is high for 16 baud_ticks (stop bit)
 				begin
 				if(baud_tick)
 					baud_next = baud_reg + 1;       // increment baud_reg every tick 
 					
-				else if (baud_reg == 16)            // once 16 baud_ticks have been counted
+				else if (baud_reg == 16)                // once 16 baud_ticks have been counted
 					begin
 					state_next   = idle;            // go to idle state
 					rx_done_tick = 1'b1;            // assert receive done tick
