@@ -15,11 +15,11 @@ module key2uart
 	
 	// instantiate keyboard scan code circuit
 	keyboard kb_unit (.clk(clk), .reset(reset), .ps2d(ps2d), .ps2c(ps2c),
-					 .scan_code(scan_code), .scan_code_ready(scan_code_ready), .letter_case_out(letter_case));
+			 .scan_code(scan_code), .scan_code_ready(scan_code_ready), .letter_case_out(letter_case));
 	
 	// instantiate uart tx
 	uart_tx tx_unit (.clk(clk), .reset(reset), .tx_start(scan_code_ready),
-					.baud_tick(tick), .tx_data(ascii_code), .tx_done_tick(), .tx(tx));
+			.baud_tick(tick), .tx_data(ascii_code), .tx_done_tick(), .tx(tx));
 					
 	// instantiate key-to-ascii code conversion circuit
 	key2ascii k2a_unit (.letter_case(letter_case), .scan_code(scan_code), .ascii_code(ascii_code));
