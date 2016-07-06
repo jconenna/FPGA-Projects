@@ -39,8 +39,8 @@ module ps2_rx
 	
 	// filter value next state, 1 if all bits are 1, 0 if all bits are 0, else no change
 	assign f_val_next = (filter_reg == 8'b11111111) ? 1'b1 :
-						(filter_reg == 8'b00000000) ? 1'b0 :
-						f_val_reg;
+			    (filter_reg == 8'b00000000) ? 1'b0 :
+			    f_val_reg;
 	
 	// negative edge of filter value: if current value is 1, and next state value is 0
 	assign neg_edge = f_val_reg & ~f_val_next;
@@ -73,22 +73,22 @@ module ps2_rx
 		case (state_reg)
 			
 			idle:
-				if (neg_edge & rx_en)             // start bit received
+				if (neg_edge & rx_en)                 // start bit received
 					begin
 					n_next = 4'b1010;             // set bit count down to 10
 					state_next = rx;              // go to rx state
 					end
 				
-			rx:                                   // shift in 8 data, 1 parity, and 1 stop bit
+			rx:                                           // shift in 8 data, 1 parity, and 1 stop bit
 				begin
-				if (neg_edge)                     // if ps2c negative edge...
+				if (neg_edge)                         // if ps2c negative edge...
 					begin
 					d_next = {ps2d, d_reg[10:1]}; // sample ps2d, right shift into data register
 					n_next = n_reg - 1;           // decrement bit count
 					end
 			
-				if (n_reg==0)                     // after 10 bits shifted in, go to done state
-                     begin
+				if (n_reg==0)                         // after 10 bits shifted in, go to done state
+                                        begin
 					 rx_done_tick = 1'b1;         // assert dat received done tick
 					 state_next = idle;           // go back to idle
 					 end
