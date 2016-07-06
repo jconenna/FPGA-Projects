@@ -3,7 +3,7 @@ module key2uart
 		input wire clk, reset,
 		input wire ps2d, ps2c,
 		output wire tx
-		);
+	);
 		
 	// signal declaration
 	wire [7:0] scan_code, ascii_code;
